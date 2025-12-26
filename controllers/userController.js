@@ -62,12 +62,19 @@ const login = async (req,res) =>{
 }
 
 const getUserInfo = async(req,res) =>{
+    console.log(req.user,"In controller")
     try{
-
+        const loggedUser = await User.findByPk(
+            req.user.id,{
+                attributes:["id", "name","email","address","role"]
+            }
+        )
+        console.log("------------------",loggedUser)
+        res.status(200).send({user:loggedUser,success:true})
     }catch(error){
         res.status(500).send({msg:"Server Error"})
     }
 }
 
 
-module.exports = {register, login}
+module.exports = {register, login, getUserInfo}
