@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 function auth(req,res,next){
-
+    if(!req.headers.authorization){
+        res.status(400).send({msg:"token not found"})
+    }
     console.log(req.headers.authorization,"***********?????????????????")
     token = req.headers.authorization
     if(token.startsWith('Bearer')){
@@ -21,5 +23,12 @@ function auth(req,res,next){
 
 }
 
+function doctor(req,res,next){
+    if(req.user.role = 'doctor'){
+        next()
+    }else{
+        res.status(200).send({msg:"you are not authorized"})
+    }
+}
 
-module.exports = {auth}
+module.exports = {auth, doctor}

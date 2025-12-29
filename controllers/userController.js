@@ -76,5 +76,19 @@ const getUserInfo = async(req,res) =>{
     }
 }
 
+const doctorList = async(req,res) =>{
+    console.log(req.user,"In controller")
+    try{
+        const doctors = await User.findAll({
+            where:{role:'doctor'},
+            attributes:["id",'name']
+        })
+        res.status(200).send({doctors:doctors,success:true})
+    }catch(error){
+        res.status(500).send({msg:"Server Error"})
+    }
+}
 
-module.exports = {register, login, getUserInfo}
+
+
+module.exports = {register, login, getUserInfo,doctorList}
