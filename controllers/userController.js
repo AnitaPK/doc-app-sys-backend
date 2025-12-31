@@ -3,11 +3,12 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
+BASEURL = 'http://localhost:7005/uploads/'
 
 const register = async (req,res)=>{
     console.log(req.body)
     let {name, email,password, contactNumber,address} = req.body
-
+    imagePath = req.file ? req.file.filename : null
     try {
 
         const existingUser = await User.findOne({
@@ -22,7 +23,7 @@ const register = async (req,res)=>{
 
         console.log("hashed password", password)
         
-        const regUser = await User.create({name, email,password, contactNumber,address})
+        const regUser = await User.create({name, email,password, contactNumber,address,imagePath})
         if(!regUser){
             res.status(400).send({msg:"Not registered",success:false})
         }
@@ -66,9 +67,11 @@ const getUserInfo = async(req,res) =>{
     try{
         const loggedUser = await User.findByPk(
             req.user.id,{
-                attributes:["id", "name","email","address","role"]
+                attributes:["id", "name","email","address","role","imagePath"]
             }
         )
+        loggedUser.imagePath = BASEURL+loggedUser.imagePath
+
         console.log("------------------",loggedUser)
         res.status(200).send({user:loggedUser,success:true})
     }catch(error){
