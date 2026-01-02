@@ -2,6 +2,7 @@ const express = require('express')
 require('dotenv').config()
 const userRoute = require('./routes/userRoutes')
 const appointmentRoute = require('./routes/appointmentRoute')
+const doctorRoute = require('./routes/doctorRoute')
 const cors = require('cors')
 const path = require('path')
 
@@ -18,6 +19,8 @@ app.use(cors())
 app.use('/api/user', userRoute)
 app.use('/api/appointment', appointmentRoute)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+app.use('/api/doc', doctorRoute)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
