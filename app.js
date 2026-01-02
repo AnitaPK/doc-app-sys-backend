@@ -17,7 +17,7 @@ app.use(cors())
 
 app.use('/api/user', userRoute)
 app.use('/api/appointment', appointmentRoute)
-app.use('/uploads/', express.static(path.join(__dirname + 'uploads')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
